@@ -100,3 +100,5 @@ app.delete('/users/:id', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+app.get('/use', function (req, res)  {res.send("welcome")})
