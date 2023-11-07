@@ -1,8 +1,14 @@
+//server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
+const cors = require('cors');
+const ObjectId = mongoose.Types.ObjectId;
+// ...
+
+app.use(cors());
 
 
 
@@ -17,17 +23,20 @@ mongoose.connect('mongodb+srv://jerins750:OqPPBFbTw56yD9xO@cluster0.6r9al8r.mong
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Successfully connected to MongoDB');
+});
 
 
 
 
 
 
-const User = mongoose.model('User', {
+const User = mongoose.model('users', {
   name: String,
-  email: String,
-  phone: String,
-  place: String
+  Address: String,
+  profession: String,
+  Mobilenumber: String
 });
 
 app.use(bodyParser.json());
@@ -35,6 +44,7 @@ app.use(bodyParser.json());
 // Create a new user
 app.post('/users', async (req, res) => {
   try {
+    console.log(req.body)
     const user = new User(req.body);
     await user.save();
     res.status(201).json(user);
@@ -85,8 +95,11 @@ app.put('/users/:id', async (req, res) => {
 
 // Delete a user by ID
 app.delete('/users/:id', async (req, res) => {
+  console.log(req.params.id);
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const userId = req.params.id;
+    const user = await User.findByIdAndDelete(userId); // Use userId here
+    console.log(user);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -97,8 +110,8 @@ app.delete('/users/:id', async (req, res) => {
   }
 });
 
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-app.get('/use', function (req, res)  {res.send("welcome")})

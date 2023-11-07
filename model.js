@@ -23,4 +23,4 @@ const addressSchema = mongoose.Schema({
 
    module.exports = Address;
 
-   mongodb+srv://jerins750:OqPPBFbTw56yD9xO@cluster0.6r9al8r.mongodb.net/?retryWrites=true&w=majority
+   mongodb + srv : //jerins750:OqPPBFbTw56yD9xO@cluster0.6r9al8r.mongodb.net/?retryWrites=true&w=majority
